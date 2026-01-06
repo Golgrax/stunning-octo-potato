@@ -3,7 +3,7 @@ import { CustomerView } from './pages/CustomerView';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AdminLogin } from './pages/AdminLogin';
 import { Product, CartItem, Order, OrderStatus, CustomerDetails, PaymentMethod, User, InventoryItem, FulfillmentType } from './types';
-import { Button } from './components/GlassComponents';
+import { Button, AccessibilityMenu } from './components/GlassComponents';
 import { Lock } from 'lucide-react';
 
 // API Base URL
@@ -345,7 +345,8 @@ const App: React.FC = () => {
 
   // -- RENDER --
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900 font-sans selection:bg-neutral-200">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 font-sans selection:bg-neutral-200 transition-colors duration-300">
+      <AccessibilityMenu />
       {view !== 'admin' && view !== 'landing' && (
         <nav className="border-b border-neutral-200/60 bg-white/90 backdrop-blur-xl fixed top-0 w-full z-40 transition-all duration-300">
             <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
