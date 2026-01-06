@@ -197,7 +197,7 @@ export const AccessibilityMenu: React.FC = () => {
   }, [zoomLevel]);
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-50">
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="p-3 bg-white dark:bg-neutral-800 rounded-full shadow-lg border border-neutral-200 dark:border-neutral-700 hover:scale-105 transition-transform"
@@ -207,7 +207,7 @@ export const AccessibilityMenu: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute top-14 right-0 w-64 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl shadow-xl p-4 animate-in slide-in-from-top-2">
+        <div className="absolute bottom-16 right-0 w-64 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl shadow-xl p-4 animate-in slide-in-from-bottom-2">
           <div className="flex justify-between items-center mb-4">
             <h3 className="font-medium text-neutral-900 dark:text-neutral-100">Accessibility</h3>
             <button onClick={() => setIsOpen(false)} className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200">

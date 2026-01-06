@@ -1011,25 +1011,25 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
       {selectedProduct && (
         <div className="space-y-6">
            <div className="flex gap-4">
-              <div className="w-24 h-24 rounded-lg bg-stone-100 overflow-hidden flex-shrink-0">
+              <div className="w-24 h-24 rounded-lg bg-neutral-100 dark:bg-neutral-800 overflow-hidden flex-shrink-0">
                 <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
               </div>
               <div>
-                 <h3 className="text-lg font-medium text-stone-900">{selectedProduct.name}</h3>
-                 <p className="text-stone-500 text-sm mt-1">{selectedProduct.description}</p>
-                 <div className="mt-2 text-emerald-600 font-mono font-medium">{formatCurrency(calculateItemPrice(selectedProduct, options))}</div>
+                 <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100">{selectedProduct.name}</h3>
+                 <p className="text-neutral-500 dark:text-neutral-400 text-sm mt-1">{selectedProduct.description}</p>
+                 <div className="mt-2 text-emerald-600 dark:text-emerald-400 font-mono font-medium">{formatCurrency(calculateItemPrice(selectedProduct, options))}</div>
               </div>
            </div>
 
            <div className="space-y-4">
               <div>
-                <label className="text-xs text-stone-500 uppercase tracking-wider mb-2 block">Size</label>
+                <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2 block">Size</label>
                 <div className="flex gap-2">
                    {['S', 'M', 'L'].map((s) => (
                       <button 
                         key={s}
                         onClick={() => setOptions({...options, size: s as any})}
-                        className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${options.size === s ? 'bg-stone-900 text-white' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'}`}
+                        className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${options.size === s ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900' : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700'}`}
                       >
                         {s}
                       </button>
@@ -1040,13 +1040,13 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
               {selectedProduct.category !== 'pastry' && (
                 <>
                   <div>
-                    <label className="text-xs text-stone-500 uppercase tracking-wider mb-2 block">Milk</label>
+                    <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2 block">Milk</label>
                     <div className="grid grid-cols-2 gap-2">
                       {['Dairy', 'Oat', 'Almond', 'Soy'].map((m) => (
                           <button 
                             key={m}
                             onClick={() => setOptions({...options, milk: m as any})}
-                            className={`px-3 py-2 rounded-lg text-sm text-left transition-colors ${options.milk === m ? 'bg-stone-900 text-white' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'}`}
+                            className={`px-3 py-2 rounded-lg text-sm text-left transition-colors ${options.milk === m ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900' : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700'}`}
                           >
                             {m} {m !== 'Dairy' && '+0.75'}
                           </button>
@@ -1054,13 +1054,13 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                     </div>
                   </div>
                    <div>
-                    <label className="text-xs text-stone-500 uppercase tracking-wider mb-2 block">Sweetness</label>
+                    <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2 block">Sweetness</label>
                     <div className="flex gap-2">
                       {['0%', '50%', '100%'].map((s) => (
                           <button 
                             key={s}
                             onClick={() => setOptions({...options, sweetness: s as any})}
-                            className={`px-3 py-2 rounded-lg text-sm transition-colors ${options.sweetness === s ? 'bg-stone-900 text-white' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'}`}
+                            className={`px-3 py-2 rounded-lg text-sm transition-colors ${options.sweetness === s ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900' : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700'}`}
                           >
                             {s}
                           </button>
@@ -1083,33 +1083,33 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
     if (!isCartOpen) return null;
     return (
       <div className="fixed inset-0 z-50 flex justify-end">
-         <div className="absolute inset-0 bg-stone-900/20 backdrop-blur-sm" onClick={() => setIsCartOpen(false)} />
-         <div className="relative w-full max-w-md bg-white border-l border-stone-200 h-full flex flex-col animate-in slide-in-from-right duration-300 shadow-2xl">
-            <div className="p-6 border-b border-stone-100 flex justify-between items-center bg-white/80 backdrop-blur-md">
-               <h2 className="text-lg font-medium text-stone-900 flex items-center gap-2">
+         <div className="absolute inset-0 bg-neutral-900/20 backdrop-blur-sm" onClick={() => setIsCartOpen(false)} />
+         <div className="relative w-full max-w-md bg-white dark:bg-neutral-900 border-l border-neutral-200 dark:border-neutral-800 h-full flex flex-col animate-in slide-in-from-right duration-300 shadow-2xl">
+            <div className="p-6 border-b border-neutral-100 dark:border-neutral-800 flex justify-between items-center bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md">
+               <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
                  <ShoppingBag className="w-5 h-5" /> Your Order
                </h2>
-               <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-stone-100 rounded-full text-stone-400">
+               <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full text-neutral-400">
                  <X className="w-5 h-5" />
                </button>
             </div>
             
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
                {cart.length === 0 ? (
-                 <div className="text-center py-12 text-stone-400">
+                 <div className="text-center py-12 text-neutral-400">
                     <Coffee className="w-12 h-12 mx-auto mb-3 opacity-20" />
                     <p>Your cart is empty.</p>
                  </div>
                ) : (
                  cart.map(item => (
-                   <div key={item.cartId} className="flex gap-4 p-4 bg-stone-50 rounded-xl border border-stone-100">
-                      <img src={item.image} alt="" className="w-16 h-16 rounded-md object-cover bg-stone-200" />
+                   <div key={item.cartId} className="flex gap-4 p-4 bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700">
+                      <img src={item.image} alt="" className="w-16 h-16 rounded-md object-cover bg-neutral-200 dark:bg-neutral-700" />
                       <div className="flex-1">
                          <div className="flex justify-between items-start">
-                            <h4 className="text-stone-900 font-medium text-sm">{item.name}</h4>
-                            <span className="text-stone-900 text-sm font-mono">{formatCurrency(item.totalPrice)}</span>
+                            <h4 className="text-neutral-900 dark:text-neutral-100 font-medium text-sm">{item.name}</h4>
+                            <span className="text-neutral-900 dark:text-neutral-100 text-sm font-mono">{formatCurrency(item.totalPrice)}</span>
                          </div>
-                         <p className="text-stone-500 text-xs mt-1">
+                         <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-1">
                            {item.options.size} • {item.options.milk || 'Regular'} • {item.options.sweetness || 'Regular'}
                          </p>
                          <button 
@@ -1124,10 +1124,10 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                )}
             </div>
 
-            <div className="p-6 border-t border-stone-100 bg-stone-50">
+            <div className="p-6 border-t border-neutral-100 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900">
                <div className="flex justify-between items-center mb-4">
-                  <span className="text-stone-500">Total</span>
-                  <span className="text-2xl font-light text-stone-900">{formatCurrency(cartTotal)}</span>
+                  <span className="text-neutral-500 dark:text-neutral-400">Total</span>
+                  <span className="text-2xl font-light text-neutral-900 dark:text-neutral-100">{formatCurrency(cartTotal)}</span>
                </div>
                <Button 
                  className="w-full h-12" 
@@ -1156,10 +1156,9 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
 
       {/* Header with History Link */}
       <div className="flex justify-between items-center py-6">
-         <h1 className="text-xl font-light text-stone-900 tracking-tight">Lumina</h1>
-         <div className="flex gap-4">
+         <div className="flex gap-4 ml-auto">
            {customerDetails.type === 'registered' && (
-              <button onClick={() => setCurrentScreen('history')} className="text-sm text-stone-500 hover:text-stone-900 flex items-center gap-1">
+              <button onClick={() => setCurrentScreen('history')} className="text-sm text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 flex items-center gap-1">
                  <History className="w-4 h-4"/> History
               </button>
            )}
@@ -1168,26 +1167,26 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
 
       {/* Hero */}
       <div className="py-12 md:py-20 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <h1 className="text-4xl md:text-6xl font-thin tracking-tight text-stone-900 mb-4">
-          Lumina <span className="text-stone-400">Café</span>
+        <h1 className="text-4xl md:text-6xl font-thin tracking-tight text-neutral-900 dark:text-neutral-100 mb-4">
+          Lumina <span className="text-neutral-400 dark:text-neutral-600">Café</span>
         </h1>
-        <p className="text-stone-500 font-light max-w-lg mx-auto">Experience coffee in high definition.</p>
+        <p className="text-neutral-500 dark:text-neutral-400 font-light max-w-lg mx-auto">Experience coffee in high definition.</p>
       </div>
 
       {/* AI Assistant */}
-      <GlassCard className="mb-12 p-1 flex flex-col md:flex-row items-center gap-2 max-w-2xl mx-auto backdrop-blur-2xl bg-white/50 border border-stone-200 shadow-sm">
+      <GlassCard className="mb-12 p-1 flex flex-col md:flex-row items-center gap-2 max-w-2xl mx-auto backdrop-blur-2xl bg-white/50 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800 shadow-sm">
         <div className="p-3">
           <Sparkles className="w-5 h-5 text-indigo-500" />
         </div>
         <input 
           type="text" 
           placeholder="How are you feeling today?" 
-          className="bg-transparent border-none outline-none text-stone-900 w-full placeholder-stone-400 text-sm p-2"
+          className="bg-transparent border-none outline-none text-neutral-900 dark:text-neutral-100 w-full placeholder-neutral-400 text-sm p-2"
           value={aiPrompt}
           onChange={(e) => setAiPrompt(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAskAi()}
         />
-        <Button variant="secondary" onClick={handleAskAi} isLoading={aiLoading} className="whitespace-nowrap rounded-lg border-none bg-stone-100 hover:bg-stone-200">
+        <Button variant="secondary" onClick={handleAskAi} isLoading={aiLoading} className="whitespace-nowrap rounded-lg border-none bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200">
           Ask Barista
         </Button>
       </GlassCard>
@@ -1212,7 +1211,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
             onClick={() => setCategory(cat as any)}
             className={`
               px-6 py-2 rounded-full text-sm font-medium transition-all duration-300
-              ${category === cat ? 'bg-stone-900 text-white shadow-lg' : 'text-stone-500 hover:text-stone-900 bg-white border border-stone-200 hover:border-stone-300'}
+              ${category === cat ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 shadow-lg' : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300'}
             `}
           >
             {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -1223,24 +1222,24 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product) => (
-          <GlassCard key={product.id} className="group flex flex-col h-full bg-white border-stone-100 shadow-sm hover:shadow-xl hover:border-amber-200 transition-all" onClick={() => handleProductClick(product)}>
-            <div className="aspect-[4/3] relative overflow-hidden bg-stone-100">
+          <GlassCard key={product.id} className="group flex flex-col h-full bg-white dark:bg-neutral-900 border-neutral-100 dark:border-neutral-800 shadow-sm hover:shadow-xl hover:border-amber-200 dark:hover:border-amber-900 transition-all" onClick={() => handleProductClick(product)}>
+            <div className="aspect-[4/3] relative overflow-hidden bg-neutral-100 dark:bg-neutral-800">
               <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute top-4 right-4">
-                <div className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-white flex items-center justify-center text-stone-900 shadow-sm group-hover:bg-amber-500 group-hover:text-white transition-all">
+                <div className="w-10 h-10 rounded-full bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border border-white dark:border-neutral-800 flex items-center justify-center text-neutral-900 dark:text-neutral-100 shadow-sm group-hover:bg-amber-500 group-hover:text-white transition-all">
                   <Plus className="w-5 h-5" />
                 </div>
               </div>
             </div>
             <div className="p-5 flex flex-col flex-grow">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-lg font-medium text-stone-900 group-hover:text-amber-700 transition-colors">{product.name}</h3>
-                <span className="text-stone-900 font-medium">{formatCurrency(product.price)}</span>
+                <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-amber-700 dark:group-hover:text-amber-500 transition-colors">{product.name}</h3>
+                <span className="text-neutral-900 dark:text-neutral-100 font-medium">{formatCurrency(product.price)}</span>
               </div>
-              <p className="text-stone-500 text-sm font-light mb-4 flex-grow line-clamp-2">{product.description}</p>
+              <p className="text-neutral-500 dark:text-neutral-400 text-sm font-light mb-4 flex-grow line-clamp-2">{product.description}</p>
               <div className="flex gap-2">
                 {product.tags.map(tag => (
-                  <span key={tag} className="text-[10px] uppercase tracking-wider text-stone-500 border border-stone-200 px-2 py-1 rounded bg-stone-50">{tag}</span>
+                  <span key={tag} className="text-[10px] uppercase tracking-wider text-neutral-500 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-2 py-1 rounded bg-neutral-50 dark:bg-neutral-800">{tag}</span>
                 ))}
               </div>
             </div>
@@ -1251,15 +1250,15 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
       {/* Floating Cart Dock */}
       {cart.length > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-md px-4 z-40 animate-in slide-in-from-bottom-10">
-          <div onClick={() => setIsCartOpen(true)} className="bg-white/90 backdrop-blur-xl border border-stone-200 rounded-2xl p-4 shadow-2xl flex items-center justify-between cursor-pointer hover:bg-white transition-colors">
+          <div onClick={() => setIsCartOpen(true)} className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 shadow-2xl flex items-center justify-between cursor-pointer hover:bg-white dark:hover:bg-neutral-900 transition-colors">
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center font-bold shadow-md">{cart.length}</div>
+              <div className="w-10 h-10 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 flex items-center justify-center font-bold shadow-md">{cart.length}</div>
               <div className="flex flex-col">
-                <span className="text-stone-900 text-sm font-medium">Current Order</span>
-                <span className="text-stone-500 text-xs">Total: {formatCurrency(cartTotal)}</span>
+                <span className="text-neutral-900 dark:text-neutral-100 text-sm font-medium">Current Order</span>
+                <span className="text-neutral-500 dark:text-neutral-400 text-xs">Total: {formatCurrency(cartTotal)}</span>
               </div>
             </div>
-            <div className="flex items-center text-sm font-medium text-stone-900">
+            <div className="flex items-center text-sm font-medium text-neutral-900 dark:text-neutral-100">
               View Cart <ChevronLeft className="w-4 h-4 ml-1 rotate-90" />
             </div>
           </div>

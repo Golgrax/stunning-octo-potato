@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LineChart, Line, PieChart, Pie, Legend } from 'recharts';
-import { Coffee, Clock, AlertCircle, TrendingUp, CreditCard, QrCode, Users, LayoutDashboard, ClipboardList, Package, LogOut, Search, ChevronRight, Ban, RotateCcw, Banknote, Edit3, Trash2, CheckCircle2, Archive, Eye, DollarSign, ShoppingCart, Star, TrendingDown, Activity, BarChart3, X } from 'lucide-react';
+import { Coffee, Clock, AlertCircle, TrendingUp, CreditCard, QrCode, Users, LayoutDashboard, ClipboardList, Package, LogOut, Search, ChevronRight, Ban, RotateCcw, Banknote, Edit3, Trash2, CheckCircle2, Archive, Eye, DollarSign, ShoppingCart, Star, TrendingDown, Activity, BarChart3, X, Menu } from 'lucide-react';
 import { GlassCard, Button, Badge, Table, Input, Select, GlassModal } from '../components/GlassComponents';
 import { Order, OrderStatus, User, Product, InventoryItem } from '../types';
 import { io, Socket } from 'socket.io-client';
@@ -26,6 +26,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   updateOrderStatus, updateProductStatus, updateInventoryStock, onExit 
 }) => {
   const [currentView, setCurrentView] = useState<AdminView>('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [realtimeOrders, setRealtimeOrders] = useState<Order[]>(orders);
   const [feedbackNotification, setFeedbackNotification] = useState<{orderId: string; rating: number} | null>(null);
@@ -234,8 +235,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const SidebarItem = ({ view, icon: Icon, label }: { view: AdminView, icon: any, label: string }) => (
     <button 
-      onClick={() => setCurrentView(view)}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${currentView === view ? 'bg-stone-200 text-stone-900' : 'text-stone-500 hover:text-stone-900 hover:bg-stone-100'}`}
+      onClick={() => {
+        setCurrentView(view);
+        setIsSidebarOpen(false); // Close sidebar on mobile when item clicked
+      }}
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${currentView === view ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
     >
       <Icon className="w-4 h-4" /> {label}
     </button>
@@ -245,26 +249,26 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const DashboardHome = () => (
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <GlassCard variant="solid" className="p-6">
-          <div className="flex justify-between items-start mb-2"><span className="text-stone-500 text-xs uppercase font-medium">Total Revenue</span><TrendingUp className="w-4 h-4 text-emerald-600" /></div>
-          <div className="text-3xl font-semibold text-stone-900">{formatCurrency(stats.revenue)}</div>
+        <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+          <div className="flex justify-between items-start mb-2"><span className="text-neutral-500 dark:text-neutral-400 text-xs uppercase font-medium">Total Revenue</span><TrendingUp className="w-4 h-4 text-emerald-600" /></div>
+          <div className="text-3xl font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(stats.revenue)}</div>
         </GlassCard>
-        <GlassCard variant="solid" className="p-6">
-           <div className="flex justify-between items-start mb-2"><span className="text-stone-500 text-xs uppercase font-medium">Active Orders</span><Clock className="w-4 h-4 text-blue-600" /></div>
-          <div className="text-3xl font-semibold text-stone-900">{stats.prep + stats.ready}</div>
+        <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+           <div className="flex justify-between items-start mb-2"><span className="text-neutral-500 dark:text-neutral-400 text-xs uppercase font-medium">Active Orders</span><Clock className="w-4 h-4 text-blue-600" /></div>
+          <div className="text-3xl font-semibold text-neutral-900 dark:text-neutral-100">{stats.prep + stats.ready}</div>
         </GlassCard>
-        <GlassCard variant="solid" className="p-6">
-           <div className="flex justify-between items-start mb-2"><span className="text-stone-500 text-xs uppercase font-medium">Pending Payment</span><AlertCircle className="w-4 h-4 text-amber-600" /></div>
-          <div className="text-3xl font-semibold text-stone-900">{stats.pending}</div>
+        <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+           <div className="flex justify-between items-start mb-2"><span className="text-neutral-500 dark:text-neutral-400 text-xs uppercase font-medium">Pending Payment</span><AlertCircle className="w-4 h-4 text-amber-600" /></div>
+          <div className="text-3xl font-semibold text-neutral-900 dark:text-neutral-100">{stats.pending}</div>
         </GlassCard>
-        <GlassCard variant="solid" className="p-6">
-           <div className="flex justify-between items-start mb-2"><span className="text-stone-500 text-xs uppercase font-medium">Total Members</span><Users className="w-4 h-4 text-indigo-600" /></div>
-          <div className="text-3xl font-semibold text-stone-900">{stats.totalMembers}</div>
+        <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+           <div className="flex justify-between items-start mb-2"><span className="text-neutral-500 dark:text-neutral-400 text-xs uppercase font-medium">Total Members</span><Users className="w-4 h-4 text-indigo-600" /></div>
+          <div className="text-3xl font-semibold text-neutral-900 dark:text-neutral-100">{stats.totalMembers}</div>
         </GlassCard>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <GlassCard variant="solid" className="lg:col-span-2 p-6 min-h-[300px]">
-          <h3 className="text-stone-900 font-medium mb-6">Hourly Volume</h3>
+        <GlassCard variant="solid" className="lg:col-span-2 p-6 min-h-[300px] bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+          <h3 className="text-neutral-900 dark:text-neutral-100 font-medium mb-6">Hourly Volume</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={chartData}>
               <XAxis dataKey="name" stroke="#a8a29e" fontSize={12} tickLine={false} axisLine={false} />
@@ -276,14 +280,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </ResponsiveContainer>
         </GlassCard>
         <div className="space-y-4">
-           <h3 className="text-stone-500 text-xs font-medium uppercase mb-2">Quick Actions</h3>
-           <button onClick={() => setCurrentView('menu')} className="w-full p-4 bg-white border border-stone-200 hover:border-stone-300 rounded-xl flex items-center justify-between group transition-all shadow-sm">
-             <div className="flex items-center gap-3"><div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg"><ClipboardList className="w-5 h-5"/></div><span className="text-stone-600 group-hover:text-stone-900">Review Menu</span></div>
-             <ChevronRight className="w-4 h-4 text-stone-400" />
+           <h3 className="text-neutral-500 dark:text-neutral-400 text-xs font-medium uppercase mb-2">Quick Actions</h3>
+           <button onClick={() => setCurrentView('menu')} className="w-full p-4 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 rounded-xl flex items-center justify-between group transition-all shadow-sm">
+             <div className="flex items-center gap-3"><div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg"><ClipboardList className="w-5 h-5"/></div><span className="text-neutral-600 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-neutral-100">Review Menu</span></div>
+             <ChevronRight className="w-4 h-4 text-neutral-400" />
            </button>
-           <button onClick={() => setCurrentView('inventory')} className="w-full p-4 bg-white border border-stone-200 hover:border-stone-300 rounded-xl flex items-center justify-between group transition-all shadow-sm">
-             <div className="flex items-center gap-3"><div className="p-2 bg-blue-50 text-blue-600 rounded-lg"><Package className="w-5 h-5"/></div><span className="text-stone-600 group-hover:text-stone-900">Inventory Check</span></div>
-             <ChevronRight className="w-4 h-4 text-stone-400" />
+           <button onClick={() => setCurrentView('inventory')} className="w-full p-4 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 rounded-xl flex items-center justify-between group transition-all shadow-sm">
+             <div className="flex items-center gap-3"><div className="p-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg"><Package className="w-5 h-5"/></div><span className="text-neutral-600 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-neutral-100">Inventory Check</span></div>
+             <ChevronRight className="w-4 h-4 text-neutral-400" />
            </button>
         </div>
       </div>
@@ -296,45 +300,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       <div className="animate-in fade-in slide-in-from-bottom-2">
         {/* Feedback Notification */}
         {feedbackNotification && (
-          <div className="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-xl flex items-center gap-3 animate-in slide-in-from-top-4">
+          <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl flex items-center gap-3 animate-in slide-in-from-top-4">
             <div className="flex items-center gap-2">
               <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
-              <span className="text-purple-900 font-medium">New Feedback Received!</span>
+              <span className="text-purple-900 dark:text-purple-100 font-medium">New Feedback Received!</span>
             </div>
             <div className="flex items-center gap-1">
               {[...Array(feedbackNotification.rating)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
               ))}
             </div>
-            <span className="text-purple-700 text-sm">Order #{feedbackNotification.orderId.slice(-4)}</span>
+            <span className="text-purple-700 dark:text-purple-300 text-sm">Order #{feedbackNotification.orderId.slice(-4)}</span>
             <button onClick={() => setFeedbackNotification(null)} className="ml-auto">
-              <X className="w-4 h-4 text-purple-400 hover:text-purple-700" />
+              <X className="w-4 h-4 text-purple-400 hover:text-purple-700 dark:hover:text-purple-200" />
             </button>
           </div>
         )}
         
-        <h2 className="text-xl font-medium text-stone-900 mb-6">Live Queue</h2>
+        <h2 className="text-xl font-medium text-neutral-900 dark:text-neutral-100 mb-6">Live Queue</h2>
         <Table headers={['Order ID', 'Customer', 'Items', 'Total', 'Payment', 'Status', 'Action']}>
           {activeOrders.map(order => (
-             <tr key={order.id} className="hover:bg-stone-50 transition-colors group">
-               <td className="px-6 py-4 font-mono text-stone-500">{order.id.slice(-6).toUpperCase()}</td>
-               <td className="px-6 py-4 text-stone-900 font-medium">
+             <tr key={order.id} className="hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors group">
+               <td className="px-6 py-4 font-mono text-neutral-500 dark:text-neutral-400">{order.id.slice(-6).toUpperCase()}</td>
+               <td className="px-6 py-4 text-neutral-900 dark:text-neutral-100 font-medium">
                   {order.customer.name}
-                  <div className="text-xs text-stone-500 uppercase">{order.fulfillment}</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 uppercase">{order.fulfillment}</div>
                </td>
-               <td className="px-6 py-4 text-stone-600">{order.items.length} items</td>
-               <td className="px-6 py-4 text-stone-900 font-medium">{formatCurrency(order.total)}</td>
+               <td className="px-6 py-4 text-neutral-600 dark:text-neutral-300">{order.items.length} items</td>
+               <td className="px-6 py-4 text-neutral-900 dark:text-neutral-100 font-medium">{formatCurrency(order.total)}</td>
                <td className="px-6 py-4">
-                  {order.paymentMethod === 'cash' && <span className="flex items-center gap-1 text-emerald-600 text-xs"><Banknote className="w-3 h-3"/> Cash</span>}
-                  {order.paymentMethod === 'card_pos' && <span className="flex items-center gap-1 text-blue-600 text-xs"><CreditCard className="w-3 h-3"/> POS</span>}
-                  {order.paymentMethod === 'manual_qr' && <span className="flex items-center gap-1 text-purple-600 text-xs"><QrCode className="w-3 h-3"/> QR</span>}
+                  {order.paymentMethod === 'cash' && <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-xs"><Banknote className="w-3 h-3"/> Cash</span>}
+                  {order.paymentMethod === 'card_pos' && <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400 text-xs"><CreditCard className="w-3 h-3"/> POS</span>}
+                  {order.paymentMethod === 'manual_qr' && <span className="flex items-center gap-1 text-purple-600 dark:text-purple-400 text-xs"><QrCode className="w-3 h-3"/> QR</span>}
                </td>
                <td className="px-6 py-4"><Badge status={order.status} /></td>
                <td className="px-6 py-4">
                  <Select 
                     value={order.status}
                     onChange={(e) => updateOrderStatus(order.id, e.target.value as OrderStatus)}
-                    className="text-xs py-1.5 px-3 min-w-[150px] bg-white border-stone-300"
+                    className="text-xs py-1.5 px-3 min-w-[150px] bg-white dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"
                   >
                     <option value="pending_payment">Payment Pending</option>
                     <option value="in_prep">Brewing (In Prep)</option>
@@ -351,20 +355,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const InventoryView = () => (
     <div className="animate-in fade-in slide-in-from-bottom-2">
-       <h2 className="text-xl font-medium text-stone-900 mb-6">Inventory Management</h2>
+       <h2 className="text-xl font-medium text-neutral-900 dark:text-neutral-100 mb-6">Inventory Management</h2>
        <Table headers={['Item', 'Current Stock', 'Unit', 'Status', 'Actions']}>
           {inventory.map(item => (
-             <tr key={item.productId} className="hover:bg-stone-50">
-                <td className="px-6 py-4 text-stone-900">{item.productName}</td>
-                <td className="px-6 py-4 font-mono text-stone-600">{item.currentStock}</td>
-                <td className="px-6 py-4 text-stone-500 text-xs uppercase">{item.unit}</td>
+             <tr key={item.productId} className="hover:bg-neutral-50 dark:hover:bg-neutral-800">
+                <td className="px-6 py-4 text-neutral-900 dark:text-neutral-100">{item.productName}</td>
+                <td className="px-6 py-4 font-mono text-neutral-600 dark:text-neutral-300">{item.currentStock}</td>
+                <td className="px-6 py-4 text-neutral-500 dark:text-neutral-400 text-xs uppercase">{item.unit}</td>
                 <td className="px-6 py-4">
                    {item.currentStock <= item.lowStockThreshold ? (
-                      <span className="text-red-500 text-xs flex items-center gap-1"><AlertCircle className="w-3 h-3"/> Low Stock</span>
-                   ) : <span className="text-emerald-600 text-xs">OK</span>}
+                      <span className="text-red-500 dark:text-red-400 text-xs flex items-center gap-1"><AlertCircle className="w-3 h-3"/> Low Stock</span>
+                   ) : <span className="text-emerald-600 dark:text-emerald-400 text-xs">OK</span>}
                 </td>
                 <td className="px-6 py-4 flex gap-2">
-                   <button onClick={() => updateInventoryStock(item.productId, item.currentStock + 10)} className="p-1.5 hover:bg-stone-100 rounded-lg text-emerald-600 text-xs border border-stone-200">Add Stock</button>
+                   <button onClick={() => updateInventoryStock(item.productId, item.currentStock + 10)} className="p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg text-emerald-600 dark:text-emerald-400 text-xs border border-neutral-200 dark:border-neutral-700">Add Stock</button>
                 </td>
              </tr>
           ))}
@@ -374,23 +378,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const MenuManagement = () => (
     <div className="animate-in fade-in slide-in-from-bottom-2">
-       <h2 className="text-xl font-medium text-stone-900 mb-6">Menu Management</h2>
+       <h2 className="text-xl font-medium text-neutral-900 dark:text-neutral-100 mb-6">Menu Management</h2>
        <Table headers={['Product', 'Category', 'Price', 'Status', 'Actions']}>
           {products.map(product => (
-             <tr key={product.id} className={`hover:bg-stone-50 transition-colors ${!product.isActive ? 'opacity-50' : ''}`}>
+             <tr key={product.id} className={`hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors ${!product.isActive ? 'opacity-50' : ''}`}>
                 <td className="px-6 py-4 flex items-center gap-3">
-                   <img src={product.image} className="w-8 h-8 rounded-md object-cover bg-stone-200" alt="" />
-                   <span className="text-stone-900">{product.name}</span>
+                   <img src={product.image} className="w-8 h-8 rounded-md object-cover bg-neutral-200 dark:bg-neutral-700" alt="" />
+                   <span className="text-neutral-900 dark:text-neutral-100">{product.name}</span>
                 </td>
-                <td className="px-6 py-4 text-stone-500 capitalize">{product.category}</td>
-                <td className="px-6 py-4 text-stone-900 font-mono">{formatCurrency(product.price)}</td>
+                <td className="px-6 py-4 text-neutral-500 dark:text-neutral-400 capitalize">{product.category}</td>
+                <td className="px-6 py-4 text-neutral-900 dark:text-neutral-100 font-mono">{formatCurrency(product.price)}</td>
                 <td className="px-6 py-4">
                    <Badge status={product.isActive ? 'active' : 'suspended'} />
                 </td>
                 <td className="px-6 py-4 flex gap-2">
                    <button 
                       onClick={() => updateProductStatus(product.id, !product.isActive)}
-                      className={`p-2 rounded-lg border text-xs flex items-center gap-1 ${product.isActive ? 'text-red-500 border-red-200 hover:bg-red-50' : 'text-emerald-600 border-emerald-200 hover:bg-emerald-50'}`}
+                      className={`p-2 rounded-lg border text-xs flex items-center gap-1 ${product.isActive ? 'text-red-500 dark:text-red-400 border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20' : 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'}`}
                    >
                       {product.isActive ? <><Archive className="w-3 h-3"/> Archive</> : <><RotateCcw className="w-3 h-3"/> Restore</>}
                    </button>
@@ -404,18 +408,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const UserManagement = () => (
     <div className="animate-in fade-in slide-in-from-bottom-2">
        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-medium text-stone-900">User Management</h2>
-          <div className="relative w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" /><Input placeholder="Search users..." className="pl-10 h-10 text-sm bg-white" /></div>
+          <h2 className="text-xl font-medium text-neutral-900 dark:text-neutral-100">User Management</h2>
+          <div className="relative w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" /><Input placeholder="Search users..." className="pl-10 h-10 text-sm bg-white dark:bg-neutral-900" /></div>
        </div>
        <Table headers={['Name', 'Email', 'Role', 'Joined', 'Orders', 'Spent', 'Status']}>
           {users.map(user => (
-             <tr key={user.id} className="hover:bg-stone-50 transition-colors cursor-pointer" onClick={() => setSelectedUser(user)}>
-                <td className="px-6 py-4 text-stone-900 font-medium">{user.name}</td>
-                <td className="px-6 py-4 text-stone-500">{user.email}</td>
+             <tr key={user.id} className="hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer" onClick={() => setSelectedUser(user)}>
+                <td className="px-6 py-4 text-neutral-900 dark:text-neutral-100 font-medium">{user.name}</td>
+                <td className="px-6 py-4 text-neutral-500 dark:text-neutral-400">{user.email}</td>
                 <td className="px-6 py-4"><Badge status={user.role === 'customer' ? 'registered' : 'admin'} /></td>
-                <td className="px-6 py-4 text-stone-400 text-xs">{user.joinedDate.toLocaleDateString()}</td>
-                <td className="px-6 py-4 text-stone-600">{user.totalOrders}</td>
-                <td className="px-6 py-4 text-emerald-600 font-mono">{formatCurrency(user.totalSpent)}</td>
+                <td className="px-6 py-4 text-neutral-400 text-xs">{user.joinedDate.toLocaleDateString()}</td>
+                <td className="px-6 py-4 text-neutral-600 dark:text-neutral-300">{user.totalOrders}</td>
+                <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 font-mono">{formatCurrency(user.totalSpent)}</td>
                 <td className="px-6 py-4"><Badge status={user.status} /></td>
              </tr>
           ))}
@@ -476,11 +480,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     return (
       <div className="space-y-8 animate-in fade-in duration-500">
         {/* Reset Controls */}
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-end gap-3 flex-wrap">
           <button
             onClick={() => handleReset('feedback')}
             disabled={resetting !== null}
-            className="px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 text-sm font-medium rounded-lg border border-amber-200 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-medium rounded-lg border border-amber-200 dark:border-amber-800 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             Reset Feedback
@@ -488,7 +492,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <button
             onClick={() => handleReset('orders')}
             disabled={resetting !== null}
-            className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium rounded-lg border border-blue-200 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg border border-blue-200 dark:border-blue-800 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             Reset Orders
@@ -496,7 +500,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <button
             onClick={() => handleReset('inventory')}
             disabled={resetting !== null}
-            className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-medium rounded-lg border border-purple-200 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg border border-purple-200 dark:border-purple-800 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
             Reset Inventory
@@ -504,7 +508,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <button
             onClick={() => handleReset('all')}
             disabled={resetting !== null}
-            className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-sm font-medium rounded-lg border border-red-200 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 text-red-700 dark:text-red-400 text-sm font-medium rounded-lg border border-red-200 dark:border-red-800 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             <Trash2 className="w-4 h-4" />
             Reset All Data
@@ -513,73 +517,73 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {/* Feedback Notification */}
         {feedbackNotification && (
-          <div className="p-4 bg-gradient-to-r from-purple-50 to-amber-50 border border-purple-200 rounded-xl flex items-center gap-4 animate-in slide-in-from-top-4 shadow-lg">
+          <div className="p-4 bg-gradient-to-r from-purple-50 to-amber-50 dark:from-purple-900/20 dark:to-amber-900/20 border border-purple-200 dark:border-purple-800 rounded-xl flex items-center gap-4 animate-in slide-in-from-top-4 shadow-lg">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
                 <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
               </div>
               <div>
-                <p className="text-purple-900 font-semibold">New Customer Feedback!</p>
-                <p className="text-purple-700 text-sm">Order #{feedbackNotification.orderId.slice(-4)}</p>
+                <p className="text-purple-900 dark:text-purple-100 font-semibold">New Customer Feedback!</p>
+                <p className="text-purple-700 dark:text-purple-300 text-sm">Order #{feedbackNotification.orderId.slice(-4)}</p>
               </div>
             </div>
             <div className="flex items-center gap-1 ml-auto">
               {[...Array(5)].map((_, i) => (
                 <Star 
                   key={i} 
-                  className={`w-5 h-5 ${i < feedbackNotification.rating ? 'text-amber-400 fill-amber-400' : 'text-stone-300'}`} 
+                  className={`w-5 h-5 ${i < feedbackNotification.rating ? 'text-amber-400 fill-amber-400' : 'text-neutral-300 dark:text-neutral-700'}`} 
                 />
               ))}
             </div>
-            <button onClick={() => setFeedbackNotification(null)} className="p-2 hover:bg-purple-100 rounded-lg">
-              <X className="w-4 h-4 text-purple-400 hover:text-purple-700" />
+            <button onClick={() => setFeedbackNotification(null)} className="p-2 hover:bg-purple-100 dark:hover:bg-purple-900/50 rounded-lg">
+              <X className="w-4 h-4 text-purple-400 hover:text-purple-700 dark:hover:text-purple-200" />
             </button>
           </div>
         )}
 
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-emerald-50 to-white border-emerald-100">
+          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-emerald-50 to-white dark:from-emerald-900/20 dark:to-neutral-900 border-emerald-100 dark:border-emerald-900/50">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-emerald-700 text-xs uppercase font-medium">Total Revenue</span>
-              <DollarSign className="w-5 h-5 text-emerald-600" />
+              <span className="text-emerald-700 dark:text-emerald-400 text-xs uppercase font-medium">Total Revenue</span>
+              <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-500" />
             </div>
-            <div className="text-3xl font-bold text-emerald-900">{formatCurrency(analytics.totalRevenue)}</div>
-            <div className="text-xs text-emerald-600 mt-2">Today: {formatCurrency(analytics.todayRevenue)}</div>
+            <div className="text-3xl font-bold text-emerald-900 dark:text-emerald-100">{formatCurrency(analytics.totalRevenue)}</div>
+            <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">Today: {formatCurrency(analytics.todayRevenue)}</div>
           </GlassCard>
 
-          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-blue-50 to-white border-blue-100">
+          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-neutral-900 border-blue-100 dark:border-blue-900/50">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-blue-700 text-xs uppercase font-medium">Avg Order Value</span>
-              <ShoppingCart className="w-5 h-5 text-blue-600" />
+              <span className="text-blue-700 dark:text-blue-400 text-xs uppercase font-medium">Avg Order Value</span>
+              <ShoppingCart className="w-5 h-5 text-blue-600 dark:text-blue-500" />
             </div>
-            <div className="text-3xl font-bold text-blue-900">{formatCurrency(analytics.avgOrderValue)}</div>
-            <div className="text-xs text-blue-600 mt-2">{analytics.totalOrders} total orders</div>
+            <div className="text-3xl font-bold text-blue-900 dark:text-blue-100">{formatCurrency(analytics.avgOrderValue)}</div>
+            <div className="text-xs text-blue-600 dark:text-blue-400 mt-2">{analytics.totalOrders} total orders</div>
           </GlassCard>
 
-          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-amber-50 to-white border-amber-100">
+          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-amber-50 to-white dark:from-amber-900/20 dark:to-neutral-900 border-amber-100 dark:border-amber-900/50">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-amber-700 text-xs uppercase font-medium">Completion Rate</span>
-              <CheckCircle2 className="w-5 h-5 text-amber-600" />
+              <span className="text-amber-700 dark:text-amber-400 text-xs uppercase font-medium">Completion Rate</span>
+              <CheckCircle2 className="w-5 h-5 text-amber-600 dark:text-amber-500" />
             </div>
-            <div className="text-3xl font-bold text-amber-900">{analytics.completionRate.toFixed(1)}%</div>
-            <div className="text-xs text-amber-600 mt-2">{stats.completed} completed</div>
+            <div className="text-3xl font-bold text-amber-900 dark:text-amber-100">{analytics.completionRate.toFixed(1)}%</div>
+            <div className="text-xs text-amber-600 dark:text-amber-400 mt-2">{stats.completed} completed</div>
           </GlassCard>
 
-          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-purple-50 to-white border-purple-100">
+          <GlassCard variant="solid" className="p-6 bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-neutral-900 border-purple-100 dark:border-purple-900/50">
             <div className="flex justify-between items-start mb-2">
-              <span className="text-purple-700 text-xs uppercase font-medium">Customer Rating</span>
-              <Star className="w-5 h-5 text-purple-600" />
+              <span className="text-purple-700 dark:text-purple-400 text-xs uppercase font-medium">Customer Rating</span>
+              <Star className="w-5 h-5 text-purple-600 dark:text-purple-500" />
             </div>
-            <div className="text-3xl font-bold text-purple-900">{analytics.avgRating.toFixed(1)}/5</div>
-            <div className="text-xs text-purple-600 mt-2">{analytics.feedbackCount} reviews</div>
+            <div className="text-3xl font-bold text-purple-900 dark:text-purple-100">{analytics.avgRating.toFixed(1)}/5</div>
+            <div className="text-xs text-purple-600 dark:text-purple-400 mt-2">{analytics.feedbackCount} reviews</div>
           </GlassCard>
         </div>
 
         {/* Revenue & Orders Trend */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <GlassCard variant="solid" className="p-6">
-            <h3 className="text-stone-900 font-semibold mb-6 flex items-center gap-2">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+            <h3 className="text-neutral-900 dark:text-neutral-100 font-semibold mb-6 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-emerald-600" />
               Revenue by Category
             </h3>
@@ -588,7 +592,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <XAxis dataKey="name" stroke="#a8a29e" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="#a8a29e" fontSize={12} tickLine={false} axisLine={false} />
                 <Tooltip 
-                  contentStyle={{backgroundColor: '#fff', borderColor: '#e7e5e4', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}}
+                  contentStyle={{backgroundColor: 'var(--tooltip-bg, #fff)', borderColor: 'var(--tooltip-border, #e7e5e4)', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}}
                   formatter={(value: any) => [`₱${value}`, 'Revenue']}
                 />
                 <Bar dataKey="revenue" radius={[8, 8, 0, 0]}>
@@ -600,8 +604,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </ResponsiveContainer>
           </GlassCard>
 
-          <GlassCard variant="solid" className="p-6">
-            <h3 className="text-stone-900 font-semibold mb-6 flex items-center gap-2">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+            <h3 className="text-neutral-900 dark:text-neutral-100 font-semibold mb-6 flex items-center gap-2">
               <Activity className="w-5 h-5 text-blue-600" />
               Payment Methods
             </h3>
@@ -625,30 +629,30 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {/* Top Products & Customer Insights */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Top Selling Products */}
-          <GlassCard variant="solid" className="p-6">
-            <h3 className="text-stone-900 font-semibold mb-6 flex items-center gap-2">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+            <h3 className="text-neutral-900 dark:text-neutral-100 font-semibold mb-6 flex items-center gap-2">
               <Coffee className="w-5 h-5 text-amber-600" />
               Top Selling Products
             </h3>
             <div className="space-y-4">
               {analytics.topProducts.map((product, index) => (
-                <div key={product.name} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg border border-stone-100">
+                <div key={product.name} className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg border border-neutral-100 dark:border-neutral-700">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold text-sm">
                       #{index + 1}
                     </div>
                     <div>
-                      <p className="text-stone-900 font-medium text-sm">{product.name}</p>
-                      <p className="text-stone-500 text-xs">{product.count} sold</p>
+                      <p className="text-neutral-900 dark:text-neutral-100 font-medium text-sm">{product.name}</p>
+                      <p className="text-neutral-500 dark:text-neutral-400 text-xs">{product.count} sold</p>
                     </div>
                   </div>
-                  <div className="text-emerald-600 font-mono font-semibold">
+                  <div className="text-emerald-600 dark:text-emerald-400 font-mono font-semibold">
                     {formatCurrency(product.revenue)}
                   </div>
                 </div>
               ))}
               {analytics.topProducts.length === 0 && (
-                <div className="text-center py-8 text-stone-400">
+                <div className="text-center py-8 text-neutral-400 dark:text-neutral-600">
                   <Coffee className="w-12 h-12 mx-auto mb-2 opacity-20" />
                   <p className="text-sm">No sales data yet</p>
                 </div>
@@ -657,41 +661,41 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </GlassCard>
 
           {/* Customer Insights */}
-          <GlassCard variant="solid" className="p-6">
-            <h3 className="text-stone-900 font-semibold mb-6 flex items-center gap-2">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+            <h3 className="text-neutral-900 dark:text-neutral-100 font-semibold mb-6 flex items-center gap-2">
               <Users className="w-5 h-5 text-indigo-600" />
               Customer Insights
             </h3>
             <div className="space-y-4">
-              <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-100 dark:border-indigo-900/50">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-indigo-700 text-sm font-medium">Registered Customers</span>
-                  <span className="text-2xl font-bold text-indigo-900">{analytics.registeredCustomers}</span>
+                  <span className="text-indigo-700 dark:text-indigo-300 text-sm font-medium">Registered Customers</span>
+                  <span className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">{analytics.registeredCustomers}</span>
                 </div>
-                <div className="text-xs text-indigo-600">{analytics.registeredOrders} orders from members</div>
+                <div className="text-xs text-indigo-600 dark:text-indigo-400">{analytics.registeredOrders} orders from members</div>
               </div>
 
-              <div className="p-4 bg-stone-50 rounded-lg border border-stone-200">
+              <div className="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-stone-700 text-sm font-medium">Guest Orders</span>
-                  <span className="text-2xl font-bold text-stone-900">{analytics.guestOrders}</span>
+                  <span className="text-neutral-700 dark:text-neutral-300 text-sm font-medium">Guest Orders</span>
+                  <span className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{analytics.guestOrders}</span>
                 </div>
-                <div className="text-xs text-stone-500">
+                <div className="text-xs text-neutral-500 dark:text-neutral-400">
                   {analytics.totalOrders > 0 
                     ? `${((analytics.guestOrders / analytics.totalOrders) * 100).toFixed(1)}% of total`
                     : 'No orders yet'}
                 </div>
               </div>
 
-              <div className="p-4 bg-purple-50 rounded-lg border border-purple-100">
+              <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-900/50">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-purple-700 text-sm font-medium">Avg Customer Rating</span>
+                  <span className="text-purple-700 dark:text-purple-300 text-sm font-medium">Avg Customer Rating</span>
                   <div className="flex items-center gap-1">
                     <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
-                    <span className="text-2xl font-bold text-purple-900">{analytics.avgRating.toFixed(1)}</span>
+                    <span className="text-2xl font-bold text-purple-900 dark:text-purple-100">{analytics.avgRating.toFixed(1)}</span>
                   </div>
                 </div>
-                <div className="text-xs text-purple-600">{analytics.feedbackCount} feedback responses</div>
+                <div className="text-xs text-purple-600 dark:text-purple-400">{analytics.feedbackCount} feedback responses</div>
               </div>
             </div>
           </GlassCard>
@@ -700,22 +704,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {/* Fulfillment & Inventory Alerts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Fulfillment Types */}
-          <GlassCard variant="solid" className="p-6">
-            <h3 className="text-stone-900 font-semibold mb-6 flex items-center gap-2">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+            <h3 className="text-neutral-900 dark:text-neutral-100 font-semibold mb-6 flex items-center gap-2">
               <Package className="w-5 h-5 text-cyan-600" />
               Fulfillment Types
             </h3>
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-4 bg-amber-50 rounded-lg border border-amber-100">
+              <div className="flex items-center justify-between p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-900/50">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                    <Coffee className="w-5 h-5 text-amber-600" />
+                  <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                    <Coffee className="w-5 h-5 text-amber-600 dark:text-amber-500" />
                   </div>
-                  <span className="text-stone-900 font-medium">Pickup</span>
+                  <span className="text-neutral-900 dark:text-neutral-100 font-medium">Pickup</span>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-amber-900">{analytics.fulfillmentTypes.pickup}</div>
-                  <div className="text-xs text-amber-600">
+                  <div className="text-2xl font-bold text-amber-900 dark:text-amber-100">{analytics.fulfillmentTypes.pickup}</div>
+                  <div className="text-xs text-amber-600 dark:text-amber-400">
                     {analytics.totalOrders > 0 
                       ? `${((analytics.fulfillmentTypes.pickup / analytics.totalOrders) * 100).toFixed(0)}%`
                       : '0%'}
@@ -723,16 +727,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-cyan-50 rounded-lg border border-cyan-100">
+              <div className="flex items-center justify-between p-4 bg-cyan-50 dark:bg-cyan-900/20 rounded-lg border border-cyan-100 dark:border-cyan-900/50">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center">
-                    <Package className="w-5 h-5 text-cyan-600" />
+                  <div className="w-10 h-10 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center">
+                    <Package className="w-5 h-5 text-cyan-600 dark:text-cyan-500" />
                   </div>
-                  <span className="text-stone-900 font-medium">Delivery</span>
+                  <span className="text-neutral-900 dark:text-neutral-100 font-medium">Delivery</span>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-cyan-900">{analytics.fulfillmentTypes.delivery}</div>
-                  <div className="text-xs text-cyan-600">
+                  <div className="text-2xl font-bold text-cyan-900 dark:text-cyan-100">{analytics.fulfillmentTypes.delivery}</div>
+                  <div className="text-xs text-cyan-600 dark:text-cyan-400">
                     {analytics.totalOrders > 0 
                       ? `${((analytics.fulfillmentTypes.delivery / analytics.totalOrders) * 100).toFixed(0)}%`
                       : '0%'}
@@ -743,31 +747,31 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </GlassCard>
 
           {/* Inventory Alerts */}
-          <GlassCard variant="solid" className="p-6">
-            <h3 className="text-stone-900 font-semibold mb-6 flex items-center gap-2">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+            <h3 className="text-neutral-900 dark:text-neutral-100 font-semibold mb-6 flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-red-600" />
               Inventory Alerts
             </h3>
             <div className="space-y-3">
-              <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+              <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-900/50">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-red-700 text-sm font-medium">Out of Stock</span>
-                  <span className="text-2xl font-bold text-red-900">{analytics.outOfStockItems}</span>
+                  <span className="text-red-700 dark:text-red-300 text-sm font-medium">Out of Stock</span>
+                  <span className="text-2xl font-bold text-red-900 dark:text-red-100">{analytics.outOfStockItems}</span>
                 </div>
-                <div className="text-xs text-red-600">Requires immediate attention</div>
+                <div className="text-xs text-red-600 dark:text-red-400">Requires immediate attention</div>
               </div>
 
-              <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-900/50">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-amber-700 text-sm font-medium">Low Stock</span>
-                  <span className="text-2xl font-bold text-amber-900">{analytics.lowStockItems}</span>
+                  <span className="text-amber-700 dark:text-amber-300 text-sm font-medium">Low Stock</span>
+                  <span className="text-2xl font-bold text-amber-900 dark:text-amber-100">{analytics.lowStockItems}</span>
                 </div>
-                <div className="text-xs text-amber-600">Below threshold</div>
+                <div className="text-xs text-amber-600 dark:text-amber-400">Below threshold</div>
               </div>
 
               <button 
                 onClick={() => setCurrentView('inventory')}
-                className="w-full p-3 bg-white border border-stone-200 hover:border-stone-300 rounded-lg text-sm font-medium text-stone-700 hover:text-stone-900 transition-all flex items-center justify-center gap-2"
+                className="w-full p-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-neutral-900 dark:hover:text-neutral-100 transition-all flex items-center justify-center gap-2"
               >
                 View Inventory <ChevronRight className="w-4 h-4" />
               </button>
@@ -777,69 +781,69 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         {/* Additional Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <GlassCard variant="solid" className="p-6">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-stone-600 text-sm font-medium">Payment Methods</span>
-              <CreditCard className="w-5 h-5 text-stone-400" />
+              <span className="text-neutral-600 dark:text-neutral-400 text-sm font-medium">Payment Methods</span>
+              <CreditCard className="w-5 h-5 text-neutral-400 dark:text-neutral-600" />
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Cash</span>
-                <span className="font-mono text-stone-900">{analytics.paymentMethods.cash}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Cash</span>
+                <span className="font-mono text-neutral-900 dark:text-neutral-100">{analytics.paymentMethods.cash}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Card POS</span>
-                <span className="font-mono text-stone-900">{analytics.paymentMethods.card_pos}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Card POS</span>
+                <span className="font-mono text-neutral-900 dark:text-neutral-100">{analytics.paymentMethods.card_pos}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">QR/E-Wallet</span>
-                <span className="font-mono text-stone-900">{analytics.paymentMethods.manual_qr}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">QR/E-Wallet</span>
+                <span className="font-mono text-neutral-900 dark:text-neutral-100">{analytics.paymentMethods.manual_qr}</span>
               </div>
             </div>
           </GlassCard>
 
-          <GlassCard variant="solid" className="p-6">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-stone-600 text-sm font-medium">Order Status</span>
-              <Activity className="w-5 h-5 text-stone-400" />
+              <span className="text-neutral-600 dark:text-neutral-400 text-sm font-medium">Order Status</span>
+              <Activity className="w-5 h-5 text-neutral-400 dark:text-neutral-600" />
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Pending Payment</span>
-                <span className="font-mono text-amber-600">{stats.pending}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Pending Payment</span>
+                <span className="font-mono text-amber-600 dark:text-amber-500">{stats.pending}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">In Preparation</span>
-                <span className="font-mono text-blue-600">{stats.prep}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">In Preparation</span>
+                <span className="font-mono text-blue-600 dark:text-blue-500">{stats.prep}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Ready</span>
-                <span className="font-mono text-emerald-600">{stats.ready}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Ready</span>
+                <span className="font-mono text-emerald-600 dark:text-emerald-500">{stats.ready}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Completed</span>
-                <span className="font-mono text-stone-400">{stats.completed}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Completed</span>
+                <span className="font-mono text-neutral-400 dark:text-neutral-600">{stats.completed}</span>
               </div>
             </div>
           </GlassCard>
 
-          <GlassCard variant="solid" className="p-6">
+          <GlassCard variant="solid" className="p-6 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-stone-600 text-sm font-medium">Customer Types</span>
-              <Users className="w-5 h-5 text-stone-400" />
+              <span className="text-neutral-600 dark:text-neutral-400 text-sm font-medium">Customer Types</span>
+              <Users className="w-5 h-5 text-neutral-400 dark:text-neutral-600" />
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Registered</span>
-                <span className="font-mono text-indigo-600">{analytics.registeredOrders}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Registered</span>
+                <span className="font-mono text-indigo-600 dark:text-indigo-400">{analytics.registeredOrders}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-stone-500">Guest</span>
-                <span className="font-mono text-stone-600">{analytics.guestOrders}</span>
+                <span className="text-neutral-500 dark:text-neutral-400">Guest</span>
+                <span className="font-mono text-neutral-600 dark:text-neutral-300">{analytics.guestOrders}</span>
               </div>
-              <div className="flex justify-between text-sm pt-2 border-t border-stone-200">
-                <span className="text-stone-700 font-medium">Total Members</span>
-                <span className="font-mono text-stone-900 font-semibold">{analytics.registeredCustomers}</span>
+              <div className="flex justify-between text-sm pt-2 border-t border-neutral-200 dark:border-neutral-800">
+                <span className="text-neutral-700 dark:text-neutral-300 font-medium">Total Members</span>
+                <span className="font-mono text-neutral-900 dark:text-neutral-100 font-semibold">{analytics.registeredCustomers}</span>
               </div>
             </div>
           </GlassCard>
@@ -883,33 +887,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   return (
-    <div className="flex h-screen bg-stone-50 text-stone-900 font-sans selection:bg-indigo-100">
+    <div className="flex h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900 transition-colors duration-300">
       <UserDetailModal />
       
       {/* New Order Popup Notification */}
       {newOrderNotification && (
         <div className="fixed top-6 right-6 z-50 animate-in slide-in-from-right-8 duration-500">
-          <div className="bg-white rounded-2xl shadow-2xl border-2 border-emerald-500 p-6 min-w-[320px] max-w-md">
+          <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border-2 border-emerald-500 p-6 min-w-[320px] max-w-md">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0 animate-pulse">
                 <ShoppingCart className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-stone-900 mb-1">New Order Received! 🎉</h3>
-                <p className="text-stone-600 text-sm mb-3">
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-1">New Order Received! 🎉</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
                   <span className="font-medium">{newOrderNotification.customerName}</span> placed an order
                 </p>
                 <div className="flex items-center gap-4 text-sm">
-                  <div className="flex items-center gap-1 text-stone-500">
+                  <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
                     <Coffee className="w-4 h-4" />
                     <span>{newOrderNotification.items} items</span>
                   </div>
-                  <div className="flex items-center gap-1 text-emerald-600 font-semibold">
+                  <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
                     <DollarSign className="w-4 h-4" />
                     <span>{formatCurrency(newOrderNotification.total)}</span>
                   </div>
                 </div>
-                <div className="mt-3 pt-3 border-t border-stone-100 flex gap-2">
+                <div className="mt-3 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex gap-2">
                   <button
                     onClick={() => {
                       setCurrentView('orders');
@@ -921,7 +925,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </button>
                   <button
                     onClick={() => setNewOrderNotification(null)}
-                    className="px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-600 text-xs font-medium rounded-lg transition-colors"
+                    className="px-3 py-2 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-300 text-xs font-medium rounded-lg transition-colors"
                   >
                     Dismiss
                   </button>
@@ -929,7 +933,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
               <button 
                 onClick={() => setNewOrderNotification(null)}
-                className="text-stone-400 hover:text-stone-600 transition-colors"
+                className="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -937,8 +941,31 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </div>
         </div>
       )}
-      <aside className="w-64 border-r border-stone-200 bg-white flex flex-col">
-         <div className="p-6"><h1 className="text-xl font-bold tracking-tight text-stone-900 flex items-center gap-2"><div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white"><LayoutDashboard className="w-4 h-4"/></div>Lumina Admin</h1></div>
+
+      {/* Mobile Sidebar Toggle */}
+      <div className="md:hidden fixed top-4 left-4 z-40">
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm text-neutral-600 dark:text-neutral-300"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed md:relative top-0 left-0 h-full w-64 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col z-40 transition-transform duration-300 ease-in-out
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+         <div className="p-6"><h1 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 flex items-center gap-2"><div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white"><LayoutDashboard className="w-4 h-4"/></div>Lumina Admin</h1></div>
          <nav className="flex-1 px-4 space-y-1">
             <SidebarItem view="dashboard" icon={LayoutDashboard} label="Dashboard" />
             <SidebarItem view="analytics" icon={BarChart3} label="Analytics & KPIs" />
@@ -947,13 +974,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <SidebarItem view="inventory" icon={Package} label="Inventory" />
             <SidebarItem view="users" icon={Users} label="User Management" />
          </nav>
-         <div className="p-4 border-t border-stone-200"><button onClick={onExit} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"><LogOut className="w-4 h-4" /> Sign Out</button></div>
+         <div className="p-4 border-t border-neutral-200 dark:border-neutral-800"><button onClick={onExit} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"><LogOut className="w-4 h-4" /> Sign Out</button></div>
       </aside>
-      <main className="flex-1 overflow-y-auto bg-stone-50 p-8">
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto bg-neutral-50 dark:bg-neutral-950 p-4 md:p-8 pt-16 md:pt-8 transition-all duration-300">
          <div className="max-w-7xl mx-auto">
-            <header className="flex justify-between items-center mb-8">
-               <div><h2 className="text-2xl font-semibold text-stone-900 capitalize">{currentView.replace('-', ' ')}</h2></div>
-               <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-stone-200 rounded-full shadow-sm"><div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div><span className="text-xs font-medium text-stone-500">System Online</span></div>
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+               <div><h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 capitalize">{currentView.replace('-', ' ')}</h2></div>
+               <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-full shadow-sm"><div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div><span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">System Online</span></div>
             </header>
             {currentView === 'dashboard' && <DashboardHome />}
             {currentView === 'analytics' && <AnalyticsView />}
