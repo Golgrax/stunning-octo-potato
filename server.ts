@@ -4,6 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+import path from 'path';
 import { productsRouter } from './api/products';
 import { ordersRouter } from './api/orders';
 import { authRouter } from './api/auth';
@@ -13,13 +14,13 @@ import { paymentRouter } from './api/payment';
 import { aiRouter } from './api/ai';
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const httpServer = createServer(app);
 
-// Initialize Socket.IO with CORS
+// Initialize Socket.IO
 const io = new SocketIOServer(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*", // Allow all origins for simplicity in this demo
     methods: ["GET", "POST"]
   }
 });
@@ -31,6 +32,9 @@ export { io };
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
+
+// Serve static files from the frontend build
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
@@ -46,9 +50,9 @@ app.use('/api/admin', adminRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/ai', aiRouter);
 
-// 404 handler
-app.use((req: Request, res: Response) => {
-  res.status(404).json({ error: 'Not found' });
+// Handle SPA routing: serve index.html for any non-API route
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Error handler
@@ -60,6 +64,8 @@ app.use((err: Error, req: Request, res: Response, next: any) => {
 // WebSocket connection handling
 io.on('connection', (socket) => {
   console.log('🔌 Client connected:', socket.id);
+  // ... (rest of socket logic remains same)
+
 
   // Join order-specific room (for customers)
   socket.on('join-order', (orderId: string) => {
