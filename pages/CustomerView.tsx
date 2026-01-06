@@ -437,7 +437,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
       <div className="max-w-3xl mx-auto px-6 py-12 min-h-screen">
         <button 
           onClick={() => setCurrentScreen('menu')}
-          className="flex items-center text-stone-500 hover:text-stone-900 mb-8 transition-colors text-sm"
+          className="flex items-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 mb-8 transition-colors text-sm"
         >
           <ChevronLeft className="w-4 h-4 mr-1" /> Back to Menu
         </button>
@@ -455,26 +455,26 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
               <div key={step} className="flex flex-col items-center gap-2 relative z-10">
                 <div className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 border
-                  ${isActive ? 'bg-stone-900 text-white border-stone-900 scale-110 shadow-lg' : 
-                    isPast ? 'bg-stone-200 text-stone-500 border-stone-300' : 'bg-white text-stone-400 border-stone-200'}
+                  ${isActive ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-neutral-100 dark:text-neutral-900 dark:border-neutral-100 scale-110 shadow-lg' : 
+                    isPast ? 'bg-neutral-200 text-neutral-500 border-neutral-300 dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-700' : 'bg-white text-neutral-400 border-neutral-200 dark:bg-neutral-900 dark:text-neutral-600 dark:border-neutral-800'}
                 `}>
                   {isPast ? <Check className="w-4 h-4"/> : idx + 1}
                 </div>
-                <span className={`text-xs tracking-wider uppercase transition-colors duration-300 ${isActive ? 'text-stone-900 font-medium' : 'text-stone-400'}`}>{step}</span>
+                <span className={`text-xs tracking-wider uppercase transition-colors duration-300 ${isActive ? 'text-neutral-900 dark:text-neutral-100 font-medium' : 'text-neutral-400 dark:text-neutral-600'}`}>{step}</span>
               </div>
             );
           })}
-          <div className="absolute top-[5.2rem] left-1/2 -translate-x-1/2 w-1/3 h-[1px] bg-stone-200 -z-0 hidden md:block" /> 
+          <div className="absolute top-[5.2rem] left-1/2 -translate-x-1/2 w-1/3 h-[1px] bg-neutral-200 dark:bg-neutral-800 -z-0 hidden md:block" /> 
         </div>
 
         <div className="max-w-lg mx-auto">
           {checkoutStep === 'auth' && (
-            <GlassCard className="p-8 text-center animate-in slide-in-from-right-8 duration-500">
-               <h2 className="text-2xl font-light text-stone-900 mb-2">Checkout</h2>
-               <p className="text-stone-500 mb-8 font-light">Join us or continue as guest.</p>
+            <GlassCard className="p-8 text-center animate-in slide-in-from-right-8 duration-500 bg-white/80 dark:bg-neutral-900/80 border-neutral-200 dark:border-neutral-800">
+               <h2 className="text-2xl font-light text-neutral-900 dark:text-neutral-100 mb-2">Checkout</h2>
+               <p className="text-neutral-500 dark:text-neutral-400 mb-8 font-light">Join us or continue as guest.</p>
                
                <div className="space-y-4">
-                 <Button className="w-full h-12 text-base" onClick={() => {
+                 <Button className="w-full h-12 text-base bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200" onClick={() => {
                    setCustomerDetails({...customerDetails, type: 'guest'});
                    setCheckoutStep('details');
                  }}>
@@ -482,16 +482,16 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                  </Button>
                  
                  <div className="relative py-2">
-                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-stone-200"></div></div>
-                    <div className="relative flex justify-center"><span className="bg-white px-4 text-xs text-stone-400 uppercase">Or</span></div>
+                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-neutral-200 dark:border-neutral-800"></div></div>
+                    <div className="relative flex justify-center"><span className="bg-white dark:bg-neutral-900 px-4 text-xs text-neutral-400 dark:text-neutral-500 uppercase">Or</span></div>
                  </div>
 
                  <div className="grid grid-cols-2 gap-4">
-                    <Button variant="secondary" onClick={() => {
+                    <Button variant="secondary" className="dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-700" onClick={() => {
                         setCustomerDetails({name: 'Alice Member', email: 'alice@lumina.cafe', type: 'registered'});
                         setCheckoutStep('details');
                     }}>Log In</Button>
-                    <Button variant="secondary" onClick={() => {
+                    <Button variant="secondary" className="dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-700" onClick={() => {
                         setCustomerDetails({name: 'New Member', email: 'new@lumina.cafe', type: 'registered'});
                         setCheckoutStep('details');
                     }}>Sign Up</Button>
@@ -501,20 +501,20 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
           )}
 
           {checkoutStep === 'details' && (
-             <GlassCard className="p-8 animate-in slide-in-from-right-8 duration-500">
-                <h2 className="text-xl font-light text-stone-900 mb-6">Details</h2>
+             <GlassCard className="p-8 animate-in slide-in-from-right-8 duration-500 bg-white/80 dark:bg-neutral-900/80 border-neutral-200 dark:border-neutral-800">
+                <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-6">Details</h2>
                 
                 {/* Fulfillment Selection (FR-C03) */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <button 
                       onClick={() => setFulfillmentType('pickup')}
-                      className={`py-3 px-4 rounded-lg border text-sm font-medium transition-all ${fulfillmentType === 'pickup' ? 'bg-stone-900 text-white border-stone-900' : 'bg-transparent text-stone-500 border-stone-200 hover:bg-stone-50'}`}
+                      className={`py-3 px-4 rounded-lg border text-sm font-medium transition-all ${fulfillmentType === 'pickup' ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-neutral-100 dark:text-neutral-900 dark:border-neutral-100' : 'bg-transparent text-neutral-500 border-neutral-200 hover:bg-neutral-50 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-800'}`}
                     >
                       Pickup
                     </button>
                     <button 
                       onClick={() => setFulfillmentType('delivery')}
-                      className={`py-3 px-4 rounded-lg border text-sm font-medium transition-all ${fulfillmentType === 'delivery' ? 'bg-stone-900 text-white border-stone-900' : 'bg-transparent text-stone-500 border-stone-200 hover:bg-stone-50'}`}
+                      className={`py-3 px-4 rounded-lg border text-sm font-medium transition-all ${fulfillmentType === 'delivery' ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-neutral-100 dark:text-neutral-900 dark:border-neutral-100' : 'bg-transparent text-neutral-500 border-neutral-200 hover:bg-neutral-50 dark:text-neutral-400 dark:border-neutral-700 dark:hover:bg-neutral-800'}`}
                     >
                       Delivery
                     </button>
@@ -522,35 +522,38 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
 
                 <div className="space-y-4">
                    <div>
-                     <label className="text-xs text-stone-500 uppercase tracking-wider mb-1 block">Full Name</label>
+                     <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 block">Full Name</label>
                      <Input 
                         placeholder="Jane Doe" 
                         value={customerDetails.name}
                         onChange={(e) => setCustomerDetails({...customerDetails, name: e.target.value})}
+                        className="bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100 dark:placeholder-neutral-500"
                      />
                    </div>
                    <div>
-                     <label className="text-xs text-stone-500 uppercase tracking-wider mb-1 block">Email Receipt</label>
+                     <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 block">Email Receipt</label>
                      <Input 
                         placeholder="jane@example.com" 
                         type="email"
                         value={customerDetails.email}
                         onChange={(e) => setCustomerDetails({...customerDetails, email: e.target.value})}
+                        className="bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100 dark:placeholder-neutral-500"
                      />
                    </div>
                    {fulfillmentType === 'delivery' && (
                      <div className="animate-in fade-in slide-in-from-top-2">
-                       <label className="text-xs text-stone-500 uppercase tracking-wider mb-1 block">Delivery Address</label>
+                       <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 block">Delivery Address</label>
                        <Input 
                           placeholder="Building, Street, Unit..." 
                           value={customerDetails.address || ''}
                           onChange={(e) => setCustomerDetails({...customerDetails, address: e.target.value})}
+                          className="bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100 dark:placeholder-neutral-500"
                        />
                      </div>
                    )}
                    <div className="pt-4">
                      <Button 
-                       className="w-full h-12" 
+                       className="w-full h-12 bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200" 
                        disabled={!customerDetails.name || !customerDetails.email || (fulfillmentType === 'delivery' && !customerDetails.address)}
                        onClick={() => setCheckoutStep('payment')}
                      >
@@ -562,23 +565,23 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
           )}
 
           {checkoutStep === 'payment' && (
-             <GlassCard className="p-8 animate-in slide-in-from-right-8 duration-500">
+             <GlassCard className="p-8 animate-in slide-in-from-right-8 duration-500 bg-white/80 dark:bg-neutral-900/80 border-neutral-200 dark:border-neutral-800">
                <div className="text-center mb-8">
-                  <h2 className="text-xl font-light text-stone-900 mb-2">Total: {formatCurrency(cartTotal)}</h2>
-                  <p className="text-stone-500 text-sm">Select payment method.</p>
+                  <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">Total: {formatCurrency(cartTotal)}</h2>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-sm">Select payment method.</p>
                </div>
                
                <div className="grid grid-cols-1 gap-4 mb-8">
-                  <button onClick={() => setSelectedPaymentMethod('cash')} className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${selectedPaymentMethod === 'cash' ? 'bg-stone-50 border-stone-900 ring-1 ring-stone-900 text-stone-900 shadow-md' : 'bg-white border-stone-200 text-stone-500 hover:bg-stone-50 hover:border-stone-300'}`}>
-                     <div className={`p-2 rounded-lg ${selectedPaymentMethod === 'cash' ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-600'}`}><Banknote className="w-5 h-5"/></div>
+                  <button onClick={() => setSelectedPaymentMethod('cash')} className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${selectedPaymentMethod === 'cash' ? 'bg-neutral-50 border-neutral-900 ring-1 ring-neutral-900 text-neutral-900 dark:bg-neutral-800 dark:border-neutral-100 dark:ring-neutral-100 dark:text-neutral-100 shadow-md' : 'bg-white border-neutral-200 text-neutral-500 hover:bg-neutral-50 hover:border-neutral-300 dark:bg-neutral-900 dark:border-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-800'}`}>
+                     <div className={`p-2 rounded-lg ${selectedPaymentMethod === 'cash' ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400'}`}><Banknote className="w-5 h-5"/></div>
                      <div className="text-left">
                         <span className="block text-sm font-medium">Cash (At Counter)</span>
                         <span className="block text-xs opacity-60">Pay when you {fulfillmentType === 'pickup' ? 'pick up' : 'receive'} your order</span>
                      </div>
                   </button>
 
-                  <button onClick={() => setSelectedPaymentMethod('xendit')} className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${selectedPaymentMethod === 'xendit' ? 'bg-gradient-to-r from-blue-50 to-purple-50 border-blue-500 ring-1 ring-blue-500 text-stone-900 shadow-md' : 'bg-white border-stone-200 text-stone-500 hover:bg-stone-50 hover:border-stone-300'}`}>
-                     <div className={`p-2 rounded-lg ${selectedPaymentMethod === 'xendit' ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white' : 'bg-stone-100 text-stone-600'}`}><CreditCard className="w-5 h-5"/></div>
+                  <button onClick={() => setSelectedPaymentMethod('xendit')} className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${selectedPaymentMethod === 'xendit' ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-blue-500 ring-1 ring-blue-500 text-neutral-900 dark:text-neutral-100 shadow-md' : 'bg-white border-neutral-200 text-neutral-500 hover:bg-neutral-50 hover:border-neutral-300 dark:bg-neutral-900 dark:border-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-800'}`}>
+                     <div className={`p-2 rounded-lg ${selectedPaymentMethod === 'xendit' ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400'}`}><CreditCard className="w-5 h-5"/></div>
                      <div className="text-left">
                         <span className="block text-sm font-medium">Pay Online (Xendit)</span>
                         <span className="block text-xs opacity-60">Credit/Debit Card, E-Wallet, Bank Transfer</span>
@@ -588,27 +591,27 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
 
                {selectedPaymentMethod === 'xendit' && (
                  <div className="animate-in fade-in slide-in-from-top-4 mb-6">
-                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200">
+                    <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
                           <CreditCard className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <p className="text-stone-900 font-semibold">Secure Online Payment</p>
-                          <p className="text-stone-600 text-xs">Powered by Xendit</p>
+                          <p className="text-neutral-900 dark:text-neutral-100 font-semibold">Secure Online Payment</p>
+                          <p className="text-neutral-600 dark:text-neutral-400 text-xs">Powered by Xendit</p>
                         </div>
                       </div>
-                      <div className="space-y-2 text-xs text-stone-600">
+                      <div className="space-y-2 text-xs text-neutral-600 dark:text-neutral-400">
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                           <span>Credit/Debit Cards (Visa, Mastercard, JCB)</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                           <span>E-Wallets (GCash, PayMaya, GrabPay)</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                           <span>Bank Transfer & Over-the-Counter</span>
                         </div>
                         </div>
@@ -617,7 +620,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                )}
 
                <Button 
-                 className={`w-full h-12 transition-all duration-300 ${selectedPaymentMethod ? 'opacity-100 translate-y-0' : 'opacity-50 translate-y-2 pointer-events-none'}`}
+                 className={`w-full h-12 bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 transition-all duration-300 ${selectedPaymentMethod ? 'opacity-100 translate-y-0' : 'opacity-50 translate-y-2 pointer-events-none'}`}
                  disabled={!selectedPaymentMethod}
                  onClick={async () => {
                    if (!selectedPaymentMethod) return;
@@ -634,7 +637,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                  {selectedPaymentMethod === 'xendit' ? 'Proceed to Payment' : 'Place Order'}
                </Button>
                
-               <button onClick={() => setCheckoutStep('details')} className="w-full mt-4 text-xs text-stone-500 hover:text-stone-900">
+               <button onClick={() => setCheckoutStep('details')} className="w-full mt-4 text-xs text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
                   Back to Details
                </button>
              </GlassCard>
