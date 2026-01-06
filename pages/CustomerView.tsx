@@ -320,55 +320,56 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
     
     return (
       <div className="max-w-md mx-auto p-6 min-h-screen flex flex-col justify-center text-center animate-in fade-in duration-500">
-        <GlassCard className="p-8">
+        <GlassCard className="p-8 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
           <div className="mb-6 flex justify-center">
              <div className="relative">
                 <div className="absolute inset-0 bg-emerald-500 blur-xl opacity-20 rounded-full"></div>
-                <div className="relative p-4 rounded-full bg-stone-50 border border-emerald-500/30">
-                  <Coffee className="w-8 h-8 text-emerald-600" />
+                <div className="relative p-4 rounded-full bg-neutral-50 dark:bg-neutral-800 border border-emerald-500/30">
+                  <Coffee className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                 </div>
              </div>
           </div>
-          <h2 className="text-2xl font-light text-stone-900 mb-2 flex items-center justify-center gap-2">
+          <h2 className="text-2xl font-light text-neutral-900 dark:text-neutral-100 mb-2 flex items-center justify-center gap-2">
             Order #{currentOrder.id.slice(-4)}
             {isConnected && (
-              <span className="flex items-center gap-1 text-xs text-emerald-600">
+              <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                 Live
               </span>
             )}
           </h2>
           
-          <div className="space-y-4 mb-8 bg-stone-50 border border-stone-100 rounded-xl p-4">
+          <div className="space-y-4 mb-8 bg-neutral-50 dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700 rounded-xl p-4">
             <div className="flex justify-between text-sm items-center">
-              <span className="text-stone-500">Status</span>
+              <span className="text-neutral-500 dark:text-neutral-400">Status</span>
               <Badge status={currentOrder.status} />
             </div>
             <div className="flex justify-between text-sm items-center">
-               <span className="text-stone-500">Method</span>
-               <span className="text-stone-900 capitalize flex items-center gap-1">
+               <span className="text-neutral-500 dark:text-neutral-400">Method</span>
+               <span className="text-neutral-900 dark:text-neutral-100 capitalize flex items-center gap-1">
                   {currentOrder.fulfillment === 'delivery' ? <MapPin className="w-3 h-3"/> : <Store className="w-3 h-3"/>}
                   {currentOrder.fulfillment}
                </span>
             </div>
-            <div className="flex justify-between text-sm items-center pt-2 border-t border-stone-200">
-              <span className="text-stone-500">Payment</span>
-              <span className="text-stone-700 text-xs uppercase tracking-wide flex items-center gap-1 font-medium">
+            <div className="flex justify-between text-sm items-center pt-2 border-t border-neutral-200 dark:border-neutral-700">
+              <span className="text-neutral-500 dark:text-neutral-400">Payment</span>
+              <span className="text-neutral-700 dark:text-neutral-300 text-xs uppercase tracking-wide flex items-center gap-1 font-medium">
                 {currentOrder.paymentMethod === 'cash' && <><Banknote className="w-3 h-3"/> Cash at Counter</>}
                 {currentOrder.paymentMethod === 'card_pos' && <><CreditCard className="w-3 h-3"/> Card at POS</>}
                 {currentOrder.paymentMethod === 'manual_qr' && <><QrCode className="w-3 h-3"/> Online QR</>}
+                {currentOrder.paymentMethod === 'xendit' && <><CreditCard className="w-3 h-3"/> Online Payment</>}
               </span>
             </div>
           </div>
 
           {/* Progress Bar */}
           <div className="space-y-2 mb-8">
-             <div className="flex justify-between text-xs text-stone-500 px-1">
+             <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400 px-1">
                 <span>Received</span>
                 <span>Preparing</span>
                 <span>Ready</span>
              </div>
-             <div className="relative h-1.5 bg-stone-200 rounded-full overflow-hidden">
+             <div className="relative h-1.5 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
                 <div 
                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-1000 ease-out" 
                    style={{ 
@@ -383,17 +384,17 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
           {/* Feedback Form - Only when completed */}
           {currentOrder.status === 'completed' && !currentOrder.feedback && !feedbackSubmitted && (
             <div className="animate-in slide-in-from-bottom-4">
-               <h3 className="text-stone-900 font-medium mb-4">Rate your Experience</h3>
+               <h3 className="text-neutral-900 dark:text-neutral-100 font-medium mb-4">Rate your Experience</h3>
                <div className="flex justify-center gap-2 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button key={star} onClick={() => setRating(star)} className="focus:outline-none">
-                       <Star className={`w-8 h-8 ${rating >= star ? 'text-amber-400 fill-amber-400' : 'text-stone-300'}`} />
+                       <Star className={`w-8 h-8 ${rating >= star ? 'text-amber-400 fill-amber-400' : 'text-neutral-300 dark:text-neutral-700'}`} />
                     </button>
                   ))}
                </div>
                <Input 
                   placeholder="Any comments? (Optional)" 
-                  className="mb-4 text-sm bg-white"
+                  className="mb-4 text-sm bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100"
                   value={feedbackComment}
                   onChange={(e) => setFeedbackComment(e.target.value)}
                />
@@ -410,13 +411,13 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
           )}
 
           {feedbackSubmitted && (
-             <div className="text-emerald-600 text-sm bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+             <div className="text-emerald-600 dark:text-emerald-400 text-sm bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-xl border border-emerald-100 dark:border-emerald-900/50">
                 Thank you for your feedback!
              </div>
           )}
           
           <div className="mt-8">
-             <Button variant="ghost" onClick={() => {
+             <Button variant="ghost" className="dark:text-neutral-400 dark:hover:text-neutral-100" onClick={() => {
                clearActiveOrder();
                setCurrentScreen('menu');
              }}>Place Another Order</Button>
