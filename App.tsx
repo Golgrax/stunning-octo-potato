@@ -4,6 +4,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { AdminLogin } from './pages/AdminLogin';
 import { Product, CartItem, Order, OrderStatus, CustomerDetails, PaymentMethod, User, InventoryItem, FulfillmentType } from './types';
 import { Button } from './components/GlassComponents';
+import { Lock } from 'lucide-react';
 
 // API Base URL
 const API_BASE_URL = '/api';
@@ -72,6 +73,11 @@ const App: React.FC = () => {
 
   // Fetch data from backend on mount
   useEffect(() => {
+    // Check for /admin in URL
+    if (window.location.pathname === '/admin') {
+      setView('admin-login');
+    }
+
     // Clear any saved view state to ensure fresh start
     localStorage.removeItem('lumina_view');
     
@@ -379,14 +385,6 @@ const App: React.FC = () => {
                <Button onClick={() => setView('customer')} className="h-14 px-16 text-base">Start Ordering</Button>
                <p className="text-neutral-400 text-xs font-light mt-4">Experience our premium selection</p>
              </div>
-             
-             {/* Subtle admin access link */}
-             <button 
-               onClick={() => setView('admin-login')} 
-               className="absolute bottom-8 right-8 text-xs text-neutral-300 hover:text-neutral-500 transition-colors duration-300"
-             >
-               Staff
-             </button>
           </div>
         )}
 
