@@ -11,7 +11,8 @@
     "reset-db": "tsx scripts/reset-db.ts",
     "server": "tsx server.ts",
     "server:watch": "tsx watch server.ts",
-    "start": "concurrently -k -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"cyan.bold,green.bold\" \"npm run server\" \"npm run dev\""
+    "dev:concurrent": "concurrently -k -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"cyan.bold,green.bold\" \"npm run server\" \"npm run dev\"",
+    "start": "npm run init-db && npx tsx server.ts"
   },
   "dependencies": {
     "@google/genai": "^1.31.0",
