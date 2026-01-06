@@ -1,0 +1,44 @@
+{
+  "name": "lumina-café",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "init-db": "tsx scripts/init-db.ts",
+    "reset-db": "tsx scripts/reset-db.ts",
+    "server": "tsx server.ts",
+    "server:watch": "tsx watch server.ts",
+    "start": "concurrently -k -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"cyan.bold,green.bold\" \"npm run server\" \"npm run dev\""
+  },
+  "dependencies": {
+    "@google/genai": "^1.31.0",
+    "@vercel/node": "^5.5.15",
+    "better-sqlite3": "^12.5.0",
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "lucide-react": "^0.556.0",
+    "path": "^0.12.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "recharts": "^3.5.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "xendit-node": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.7.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

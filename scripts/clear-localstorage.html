@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clear Lumina Café LocalStorage</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%);
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+    h1 {
+      color: #1c1917;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #78716c;
+      margin-bottom: 30px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 10px;
+    }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+    .btn-secondary {
+      background: #f5f5f4;
+      color: #57534e;
+    }
+    .btn-secondary:hover {
+      background: #e7e5e4;
+    }
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+    .info {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #93c5fd;
+    }
+    .items {
+      background: #f5f5f4;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 13px;
+      color: #57534e;
+    }
+    .items div {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧹 Clear Lumina Café Data</h1>
+    <p>Clear localStorage to reset your session and cart.</p>
+    
+    <div class="items" id="current-data">
+      <strong>Current localStorage:</strong>
+      <div id="data-list"></div>
+    </div>
+
+    <button class="btn-danger" onclick="clearLuminaData()">
+      Clear All Lumina Data
+    </button>
+    
+    <button class="btn-secondary" onclick="clearAll()">
+      Clear All localStorage (Everything)
+    </button>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    function displayCurrentData() {
+      const dataList = document.getElementById('data-list');
+      const luminaKeys = Object.keys(localStorage).filter(key => key.startsWith('lumina_'));
+      
+      if (luminaKeys.length === 0) {
+        dataList.innerHTML = '<div>✅ No Lumina data found</div>';
+      } else {
+        dataList.innerHTML = luminaKeys.map(key => {
+          const value = localStorage.getItem(key);
+          let preview = value.substring(0, 50);
+          if (value.length > 50) preview += '...';
+          return `<div>• ${key}: ${preview}</div>`;
+        }).join('');
+      }
+    }
+
+    function clearLuminaData() {
+      const luminaKeys = Object.keys(localStorage).filter(key => key.startsWith('lumina_'));
+      
+      luminaKeys.forEach(key => localStorage.removeItem(key));
+      
+      const status = document.getElementById('status');
+      status.className = 'status success';
+      status.innerHTML = `✅ Cleared ${luminaKeys.length} Lumina items: ${luminaKeys.join(', ')}`;
+      
+      displayCurrentData();
+      
+      setTimeout(() => {
+        status.innerHTML += '<br><br>You can close this tab and refresh your app.';
+      }, 1000);
+    }
+
+    function clearAll() {
+      const count = localStorage.length;
+      localStorage.clear();
+      
+      const status = document.getElementById('status');
+      status.className = 'status success';
+      status.innerHTML = `✅ Cleared all localStorage (${count} items)`;
+      
+      displayCurrentData();
+    }
+
+    // Display on load
+    displayCurrentData();
+  </script>
+</body>
+</html>
+
