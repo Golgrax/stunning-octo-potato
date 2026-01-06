@@ -207,15 +207,15 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
     <div className="max-w-3xl mx-auto px-6 py-12 min-h-screen">
        <button 
           onClick={() => setCurrentScreen('menu')}
-          className="flex items-center text-stone-500 hover:text-stone-900 mb-8 transition-colors text-sm"
+          className="flex items-center text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 mb-8 transition-colors text-sm"
         >
           <ChevronLeft className="w-4 h-4 mr-1" /> Back to Menu
         </button>
-        <h2 className="text-2xl font-light text-stone-900 mb-6">Order History</h2>
+        <h2 className="text-2xl font-light text-neutral-900 dark:text-neutral-100 mb-6">Order History</h2>
         
         <div className="space-y-4">
           {orderHistory.filter(o => o.customer.type === 'registered' && o.customer.email === customerDetails.email).length === 0 ? (
-            <div className="text-center py-12 text-stone-500 bg-white border border-stone-200 rounded-xl shadow-sm">
+            <div className="text-center py-12 text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl shadow-sm">
               <History className="w-12 h-12 mx-auto mb-3 opacity-20" />
               <p>No past orders found for {customerDetails.email || 'this user'}.</p>
             </div>
@@ -224,20 +224,20 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
               .filter(o => o.customer.email === customerDetails.email)
               .sort((a,b) => b.timestamp.getTime() - a.timestamp.getTime())
               .map(order => (
-              <GlassCard key={order.id} className="p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white border-stone-200">
+              <GlassCard key={order.id} className="p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
                  <div>
                     <div className="flex items-center gap-2 mb-1">
-                       <span className="font-mono text-stone-500">#{order.id.slice(-4)}</span>
+                       <span className="font-mono text-neutral-500 dark:text-neutral-400">#{order.id.slice(-4)}</span>
                        <Badge status={order.status} />
                     </div>
-                    <p className="text-stone-900 text-sm font-medium">
+                    <p className="text-neutral-900 dark:text-neutral-100 text-sm font-medium">
                       {order.items.map(i => i.name).join(', ')}
                     </p>
-                    <p className="text-stone-500 text-xs mt-1">{order.timestamp.toLocaleDateString()} at {order.timestamp.toLocaleTimeString()}</p>
+                    <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-1">{order.timestamp.toLocaleDateString()} at {order.timestamp.toLocaleTimeString()}</p>
                  </div>
                  <div className="flex items-center gap-4">
-                    <span className="text-stone-900 font-medium">{formatCurrency(order.total)}</span>
-                    <Button variant="secondary" className="text-xs">Reorder</Button>
+                    <span className="text-neutral-900 dark:text-neutral-100 font-medium">{formatCurrency(order.total)}</span>
+                    <Button variant="secondary" className="text-xs dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200">Reorder</Button>
                  </div>
               </GlassCard>
             ))
@@ -675,23 +675,23 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
             </div>
 
             {/* Payment Amount */}
-            <div className="p-6 border-b border-stone-200">
+            <div className="p-6 border-b border-neutral-200 dark:border-neutral-800">
               <div className="text-center">
-                <p className="text-stone-500 text-sm mb-1">Total Amount</p>
-                <p className="text-3xl font-light text-stone-900">
+                <p className="text-neutral-500 dark:text-neutral-400 text-sm mb-1">Total Amount</p>
+                <p className="text-3xl font-light text-neutral-900 dark:text-neutral-100">
                   {formatCurrency(cart.reduce((sum, item) => sum + item.totalPrice, 0) * 1.1)}
                 </p>
-                <p className="text-xs text-stone-400 mt-1">
+                <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-1">
                   Subtotal: {formatCurrency(cart.reduce((sum, item) => sum + item.totalPrice, 0))} + Tax
                 </p>
               </div>
             </div>
 
             {/* Payment Methods */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-6 bg-white dark:bg-neutral-900">
               {/* Credit/Debit Cards */}
               <div>
-                <h3 className="text-sm font-semibold text-stone-900 mb-3 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3 flex items-center gap-2">
                   <CreditCard className="w-4 h-4" />
                   Credit/Debit Cards
                 </h3>
@@ -706,8 +706,8 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                         )}
                         className={`w-full p-4 rounded-xl border-2 transition-all ${
                           selectedXenditMethod === `card_${card.toLowerCase()}`
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-stone-200 hover:border-stone-300 bg-white'
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 bg-white dark:bg-neutral-900'
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -715,11 +715,11 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                               selectedXenditMethod === `card_${card.toLowerCase()}`
                                 ? 'bg-blue-500 text-white'
-                                : 'bg-stone-100 text-stone-600'
+                                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400'
                             }`}>
                               <CreditCard className="w-5 h-5" />
                             </div>
-                            <span className="font-medium text-stone-900">{card}</span>
+                            <span className="font-medium text-neutral-900 dark:text-neutral-100">{card}</span>
                           </div>
                           {selectedXenditMethod === `card_${card.toLowerCase()}` && (
                             <CheckCircle2 className="w-5 h-5 text-blue-500" />
@@ -729,9 +729,9 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                       
                       {/* Card Input Fields */}
                       {selectedXenditMethod === `card_${card.toLowerCase()}` && (
-                        <div className="mt-3 p-4 bg-blue-50 rounded-xl border border-blue-200 space-y-3 animate-in fade-in slide-in-from-top-2">
+                        <div className="mt-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-200 dark:border-blue-900/30 space-y-3 animate-in fade-in slide-in-from-top-2">
                           <div>
-                            <label className="text-xs font-medium text-stone-700 mb-1 block">Card Number</label>
+                            <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Card Number</label>
                             <Input
                               type="text"
                               placeholder="1234 5678 9012 3456"
@@ -742,22 +742,22 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                                 setCardNumber(formatted);
                               }}
                               maxLength={19}
-                              className="bg-white"
+                              className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                             />
                           </div>
                           <div>
-                            <label className="text-xs font-medium text-stone-700 mb-1 block">Cardholder Name</label>
+                            <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Cardholder Name</label>
                             <Input
                               type="text"
                               placeholder="JOHN DOE"
                               value={cardName}
                               onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                              className="bg-white"
+                              className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                             />
                           </div>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="text-xs font-medium text-stone-700 mb-1 block">Expiry Date</label>
+                              <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Expiry Date</label>
                               <Input
                                 type="text"
                                 placeholder="MM/YY"
@@ -770,18 +770,18 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                                   setCardExpiry(formatted);
                                 }}
                                 maxLength={5}
-                                className="bg-white"
+                                className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                               />
                             </div>
                             <div>
-                              <label className="text-xs font-medium text-stone-700 mb-1 block">CVV</label>
+                              <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">CVV</label>
                               <Input
                                 type="text"
                                 placeholder="123"
                                 value={cardCvv}
                                 onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
                                 maxLength={3}
-                                className="bg-white"
+                                className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                               />
                             </div>
                           </div>
@@ -794,7 +794,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
 
               {/* E-Wallets */}
               <div>
-                <h3 className="text-sm font-semibold text-stone-900 mb-3 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3 flex items-center gap-2">
                   <QrCode className="w-4 h-4" />
                   E-Wallets
                 </h3>
@@ -813,20 +813,20 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                         )}
                         className={`w-full p-4 rounded-xl border-2 transition-all ${
                           selectedXenditMethod === `ewallet_${wallet.name.toLowerCase()}`
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-stone-200 hover:border-stone-300 bg-white'
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 bg-white dark:bg-neutral-900'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl ${
                               selectedXenditMethod === `ewallet_${wallet.name.toLowerCase()}`
-                                ? 'bg-blue-50'
-                                : 'bg-stone-100'
+                                ? 'bg-blue-50 dark:bg-blue-900/30'
+                                : 'bg-neutral-100 dark:bg-neutral-800'
                             }`}>
                               {wallet.icon}
                             </div>
-                            <span className="font-medium text-stone-900">{wallet.name}</span>
+                            <span className="font-medium text-neutral-900 dark:text-neutral-100">{wallet.name}</span>
                           </div>
                           {selectedXenditMethod === `ewallet_${wallet.name.toLowerCase()}` && (
                             <CheckCircle2 className="w-5 h-5 text-blue-500" />
@@ -836,20 +836,20 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                       
                       {/* E-Wallet Input Fields */}
                       {selectedXenditMethod === `ewallet_${wallet.name.toLowerCase()}` && (
-                        <div className="mt-3 p-4 bg-blue-50 rounded-xl border border-blue-200 space-y-3 animate-in fade-in slide-in-from-top-2">
+                        <div className="mt-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-200 dark:border-blue-900/30 space-y-3 animate-in fade-in slide-in-from-top-2">
                           <div>
-                            <label className="text-xs font-medium text-stone-700 mb-1 block">Mobile Number</label>
+                            <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Mobile Number</label>
                             <Input
                               type="text"
                               placeholder="+63 912 345 6789"
                               value={ewalletPhone}
                               onChange={(e) => setEwalletPhone(e.target.value)}
-                              className="bg-white"
+                              className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                             />
                           </div>
-                          <div className="bg-white p-3 rounded-lg border border-blue-200">
-                            <p className="text-xs text-stone-600">
-                              <strong className="text-stone-900">Next step:</strong> You'll be redirected to {wallet.name} to complete the payment securely.
+                          <div className="bg-white dark:bg-neutral-800 p-3 rounded-lg border border-blue-200 dark:border-blue-900/30">
+                            <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                              <strong className="text-neutral-900 dark:text-neutral-100">Next step:</strong> You'll be redirected to {wallet.name} to complete the payment securely.
                             </p>
                           </div>
                         </div>
@@ -861,7 +861,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
 
               {/* Bank Transfer & Over-the-Counter */}
               <div>
-                <h3 className="text-sm font-semibold text-stone-900 mb-3 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3 flex items-center gap-2">
                   <Banknote className="w-4 h-4" />
                   Bank Transfer & Over-the-Counter
                 </h3>
@@ -880,20 +880,20 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                         )}
                         className={`w-full p-4 rounded-xl border-2 transition-all ${
                           selectedXenditMethod === `bank_${method.name.toLowerCase().replace(/\s+/g, '_')}`
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-stone-200 hover:border-stone-300 bg-white'
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 bg-white dark:bg-neutral-900'
                         }`}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl ${
                               selectedXenditMethod === `bank_${method.name.toLowerCase().replace(/\s+/g, '_')}`
-                                ? 'bg-blue-50'
-                                : 'bg-stone-100'
+                                ? 'bg-blue-50 dark:bg-blue-900/30'
+                                : 'bg-neutral-100 dark:bg-neutral-800'
                             }`}>
                               {method.icon}
                             </div>
-                            <span className="font-medium text-stone-900">{method.name}</span>
+                            <span className="font-medium text-neutral-900 dark:text-neutral-100">{method.name}</span>
                           </div>
                           {selectedXenditMethod === `bank_${method.name.toLowerCase().replace(/\s+/g, '_')}` && (
                             <CheckCircle2 className="w-5 h-5 text-blue-500" />
@@ -903,50 +903,50 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                       
                       {/* Bank/OTC Input Fields */}
                       {selectedXenditMethod === `bank_${method.name.toLowerCase().replace(/\s+/g, '_')}` && (
-                        <div className="mt-3 p-4 bg-blue-50 rounded-xl border border-blue-200 space-y-3 animate-in fade-in slide-in-from-top-2">
+                        <div className="mt-3 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-200 dark:border-blue-900/30 space-y-3 animate-in fade-in slide-in-from-top-2">
                           {method.name === 'Bank Transfer' ? (
                             <>
                               <div>
-                                <label className="text-xs font-medium text-stone-700 mb-1 block">Bank Account Number</label>
+                                <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Bank Account Number</label>
                                 <Input
                                   type="text"
                                   placeholder="1234567890"
                                   value={bankAccountNumber}
                                   onChange={(e) => setBankAccountNumber(e.target.value.replace(/\D/g, ''))}
-                                  className="bg-white"
+                                  className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                                 />
                               </div>
                               <div>
-                                <label className="text-xs font-medium text-stone-700 mb-1 block">Account Holder Name</label>
+                                <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Account Holder Name</label>
                                 <Input
                                   type="text"
                                   placeholder="JOHN DOE"
                                   value={cardName}
                                   onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                                  className="bg-white"
+                                  className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                                 />
                               </div>
-                              <div className="bg-white p-3 rounded-lg border border-blue-200">
-                                <p className="text-xs text-stone-600">
-                                  <strong className="text-stone-900">Instructions:</strong> You'll receive bank details to complete the transfer. Payment must be made within 24 hours.
+                              <div className="bg-white dark:bg-neutral-800 p-3 rounded-lg border border-blue-200 dark:border-blue-900/30">
+                                <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                                  <strong className="text-neutral-900 dark:text-neutral-100">Instructions:</strong> You'll receive bank details to complete the transfer. Payment must be made within 24 hours.
                                 </p>
                               </div>
                             </>
                           ) : (
                             <>
                               <div>
-                                <label className="text-xs font-medium text-stone-700 mb-1 block">Mobile Number</label>
+                                <label className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1 block">Mobile Number</label>
                                 <Input
                                   type="text"
                                   placeholder="+63 912 345 6789"
                                   value={ewalletPhone}
                                   onChange={(e) => setEwalletPhone(e.target.value)}
-                                  className="bg-white"
+                                  className="bg-white dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700"
                                 />
                               </div>
-                              <div className="bg-white p-3 rounded-lg border border-blue-200">
-                                <p className="text-xs text-stone-600">
-                                  <strong className="text-stone-900">Instructions:</strong> You'll receive a payment code via SMS. Bring it to any {method.name} branch to complete payment.
+                              <div className="bg-white dark:bg-neutral-800 p-3 rounded-lg border border-blue-200 dark:border-blue-900/30">
+                                <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                                  <strong className="text-neutral-900 dark:text-neutral-100">Instructions:</strong> You'll receive a payment code via SMS. Bring it to any {method.name} branch to complete payment.
                                 </p>
                               </div>
                             </>
@@ -960,7 +960,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
             </div>
 
             {/* Footer */}
-            <div className="sticky bottom-0 p-6 bg-stone-50 border-t border-stone-200 rounded-b-2xl">
+            <div className="sticky bottom-0 p-6 bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 rounded-b-2xl">
               <Button
                 className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                 disabled={!selectedXenditMethod || isProcessingPayment || (() => {
@@ -993,7 +993,7 @@ export const CustomerView: React.FC<CustomerViewProps> = ({
                   `Pay ${formatCurrency(cart.reduce((sum, item) => sum + item.totalPrice, 0) * 1.1)}`
                 )}
               </Button>
-              <p className="text-xs text-stone-500 text-center mt-3">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 text-center mt-3">
                 🔒 Your payment is secure and encrypted
               </p>
             </div>
