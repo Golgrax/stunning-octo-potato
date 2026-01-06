@@ -55,7 +55,7 @@ app.use('/api/payment', paymentRouter);
 app.use('/api/ai', aiRouter);
 
 // Handle SPA routing: serve index.html for any non-API route
-app.get('*', (req: Request, res: Response) => {
+app.get(/.*/, (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
