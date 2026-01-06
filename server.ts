@@ -6,6 +6,8 @@ import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process'; // Added for auto-init
+import { getDb } from './lib/db'; // Added for DB check
 import { productsRouter } from './api/products';
 import { ordersRouter } from './api/orders';
 import { authRouter } from './api/auth';
@@ -20,6 +22,24 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 const httpServer = createServer(app);
+
+// --- Auto-Initialize Database on Startup ---
+try {
+  const db = getDb();
+  const tableCheck = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='products'").get();
+  
+  if (!tableCheck) {
+    console.log('⚠️  Database tables missing. Running initialization script...');
+    execSync('npm run init-db', { stdio: 'inherit' });
+    console.log('✅ Database auto-initialized successfully.');
+  } else {
+    console.log('✅ Database tables found. Skipping initialization.');
+  }
+} catch (error) {
+  console.error('❌ Failed to auto-initialize database:', error);
+  // Continue anyway, server might fail on requests but won't crash immediately
+}
+// -------------------------------------------
 
 // Initialize Socket.IO
 const io = new SocketIOServer(httpServer, {
